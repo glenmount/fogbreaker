@@ -9,3 +9,6 @@ Quick start:
 4) pytest -q
 
 Layout: corpus/ registry/ receipts/ ledger/ rankings/ schemas/ cli/ web/ qa/goldens/
+
+
+See **docs/NOW_NEXT.md** for live status.
