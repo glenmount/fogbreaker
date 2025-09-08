@@ -10,13 +10,13 @@
 ## Scoreboard (auto-updated)
 | Metric | Target | Current |
 |---|---:|---:|
-| Providers in registry | — | {{REGISTRY_COUNT}} |
-| Providers with any docs in `corpus/` | — | {{PROVIDERS_WITH_DOCS}} |
-| Receipts (events.jsonl lines) | — | {{RECEIPT_LINES}} |
-| Top-5 last generated at | — | {{TOP5_GENERATED_AT}} |
-| Missing overall star ratings | ↓ | {{MISSING_OVERALL}} |
-| Missing clinical ratings | ↓ | {{MISSING_CLINICAL}} |
-| Missing compliance ratings | ↓ | {{MISSING_COMPLIANCE}} |
+| Providers in registry | — | 2523 |
+| Providers with any docs in `corpus/` | — | 0 |
+| Receipts (events.jsonl lines) | — | 7 |
+| Top-5 last generated at | — | 2025-09-08T00:00:00Z |
+| Missing overall star ratings | ↓ | 90 |
+| Missing clinical ratings | ↓ | 59 |
+| Missing compliance ratings | ↓ | 48 |
 
 ## What’s built (kept green in CI)
 - End-to-end: **ingest → score → digest**, receipts written; deterministic tests pass.
