@@ -29,4 +29,5 @@
 {"kind":"doc_ingest","observed_at":"2025-09-08T00:00:00Z","provider_id":"racs_507","sha256":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855","size_bytes":0,"source":{"filename":"corpus/racs_507/.gitkeep"}}
 {"kind":"doc_ingest","observed_at":"2025-09-08T00:00:00Z","provider_id":"racs_536","sha256":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855","size_bytes":0,"source":{"filename":"corpus/racs_536/.gitkeep"}}
 {"kind":"doc_ingest","observed_at":"2025-09-08T00:00:00Z","provider_id":"racs_990","sha256":"e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855","size_bytes":0,"source":{"filename":"corpus/racs_990/.gitkeep"}}
+{"kind":"score_run","observed_at":"2025-09-08T00:00:00Z","provider_id":null,"sha256":"4fb2eaf4ea3ece8a8290726477c31f3ea36a5e6349cd12b1baba833fed1d05b7","size_bytes":4890,"source":{"filename":"rankings/top5.json"}}
 {"kind":"score_run","observed_at":"2025-09-08T00:00:00Z","provider_id":null,"sha256":"67e8c3fa66289779edc397abccd433e3bdd911816fed0b63e64ceb9e60281c32","size_bytes":4906,"source":{"filename":"rankings/top5.json"}}
