@@ -79,6 +79,7 @@ def main():
                     "price":    round(price, 6),
                     "quality":  round(qual,  6),
                     "needs":    round(need_hit, 6),
+                    "distance_km": round(d_km if "d_km" in locals() else 0.0, 3)
                 },
                 "receipts": receipts_by_provider.get(p.get("provider_id", ""), [])
             })
