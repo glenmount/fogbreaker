@@ -1,0 +1,38 @@
+{
+  "racs_160": {
+    "pricing": "corpus/racs_160/20250909__pricing-20250630__myagedcare.gov.au.pdf",
+    "compliance": "corpus/racs_160/20250909__compliance-20250630__myagedcare.gov.au.pdf"
+  },
+  "racs_2516": {
+    "pricing": "corpus/racs_2516/20250910__pricing-20250630__myagedcare.gov.au.pdf",
+    "compliance": "corpus/racs_2516/20250910__compliance-20250630__myagedcare.gov.au.pdf"
+  },
+  "racs_2524": {
+    "pricing": "corpus/racs_2524/20250910__pricing-20250630__myagedcare.gov.au.pdf",
+    "compliance": "corpus/racs_2524/20250910__compliance-20250630__myagedcare.gov.au.pdf"
+  },
+  "racs_262": {
+    "pricing": "corpus/racs_262/20250910__pricing-20250630__myagedcare.gov.au.pdf",
+    "compliance": "corpus/racs_262/20250911__compliance-20250630__myagedcare.gov.au.pdf"
+  },
+  "racs_2710": {
+    "pricing": "corpus/racs_2710/20250910__pricing-20250630__myagedcare.gov.au.pdf",
+    "compliance": "corpus/racs_2710/20250911__compliance-20250630__myagedcare.gov.au.pdf"
+  },
+  "racs_2713": {
+    "pricing": "corpus/racs_2713/20250910__pricing-20250630__myagedcare.gov.au.pdf",
+    "compliance": "corpus/racs_2713/20250911__compliance-20250630__myagedcare.gov.au.pdf"
+  },
+  "racs_476": {
+    "pricing": "corpus/racs_476/20250910__pricing-20250630__anglicare.org.au.pdf",
+    "compliance": "corpus/racs_476/20250911__compliance-20250630__myagedcare.gov.au.pdf"
+  },
+  "racs_507": {
+    "pricing": "corpus/racs_507/20250910__pricing-20250630__myagedcare.gov.au.pdf",
+    "compliance": "corpus/racs_507/20250911__compliance-20250630__myagedcare.gov.au.pdf"
+  },
+  "racs_536": {
+    "pricing": "corpus/racs_536/20250910__pricing-20250630__myagedcare.gov.au.pdf",
+    "compliance": "corpus/racs_536/20250911__compliance-20250630__myagedcare.gov.au.pdf"
+  }
+}
