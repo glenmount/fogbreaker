@@ -8,4 +8,7 @@ jq -n 'reduce (inputs|select(.subject=="pricing" or .subject=="compliance")
        | {pid:.provider_id, sub:.subject, file:("/" + .evidence.file)})
        as $a ({}; .[$a.pid][$a.sub]=$a.file)' \
    receipts/assertions.jsonl > web/data/evidence.json
-echo "✓ built web/data/*.json"
+echo "✓ built web/data/verified.json and web/data/evidence.json"
+
+# build rankings (idempotent)
+python3 scripts/build_rankings_strict.py

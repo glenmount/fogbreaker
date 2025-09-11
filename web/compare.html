@@ -1,0 +1,129 @@
+<!doctype html>
+<!-- FORCE INLINE, NO LINKS -->
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Fogbreaker — Compare (Inline PDFs, No Links)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    :root { --fg:#111; --muted:#666; --ok:#2e7d32; --bd:#e5e7eb; --bg:#f9fafb; }
+    * { box-sizing:border-box; }
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;margin:24px;color:var(--fg)}
+    h1{font-size:22px;margin:0 0 12px}
+    .muted{color:var(--muted);font-size:.92rem;margin:0 0 16px}
+    .toolbar{display:flex;gap:8px;align-items:center;justify-content:space-between;margin:0 0 12px}
+    .ids-input{width:520px;max-width:100%;padding:.5rem;border:1px solid var(--bd);border-radius:.5rem}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(380px,1fr));gap:14px}
+    .card{border:1px solid var(--bd);border-radius:12px;padding:16px;background:#fff}
+    .pid{font:600 16px/1.2;margin:0 0 8px}
+    .pill{display:inline-block;margin-right:6px;padding:.15rem .45rem;border:1px solid #bbb;border-radius:999px;font-size:.78rem}
+    .ok{border-color:var(--ok);color:var(--ok);font-weight:600}
+    .panel{border:1px solid var(--bd);border-radius:10px;overflow:hidden;background:var(--bg);margin-top:10px}
+    .hdr{padding:6px 10px;font-size:.86rem;color:#333;background:#fff;border-bottom:1px solid var(--bd)}
+    .url{font:12px ui-monospace,Menlo,Consolas,monospace;color:#555;padding:6px 10px;border-top:1px solid var(--bd);background:#fff}
+    .panel object{width:100%;height:520px;border:0;background:#fff; display:block}
+    @media print {.toolbar{display:none} body{margin:16px} .panel object{height:380px} .card{break-inside:avoid}}
+.stacked .panel{margin-top:0}
+.stacked .pair{display:block}
+.pair{display:grid;grid-template-columns:1fr;gap:10px}
+  </style>
+</head>
+<body>
+  <div class="toolbar"><button class="btn" id="modeBtn" onclick="toggleMode()">Two panes</button>
+    <h1>Fogbreaker — Compare (Inline PDFs, No Links)</h1>
+    <div>
+      <input id="ids" class="ids-input" placeholder="ids (comma-separated, e.g. racs_2710,racs_2713)" />
+      <button onclick="applyIds()">Load</button>
+      <button onclick="window.print()">Print</button>
+    </div>
+  </div>
+  <p class="muted">If the PDF is still opening as a full page, your browser/extension is intercepting PDFs. The inline viewers below have <b>no</b> links.</p>
+
+  <div id="wrap" class="grid"></div>
+
+<script>
+function gp(n,d=''){const u=new URL(location.href);return u.searchParams.get(n)||d}
+function sp(n,v){const u=new URL(location.href);u.searchParams.set(n,v);history.replaceState(null,'',u.toString())}
+function applyIds(){const v=document.getElementById('ids').value.trim();sp('ids',v);render()}
+async function j(p){const r=await fetch(p,{cache:'no-store'});if(!r.ok)throw new Error(p);return r.json()}
+const abs=p=>!p?null:(p.startsWith('http')||p.startsWith('/'))?p:'/'+p
+
+async function render(){
+  const W=document.getElementById('wrap'); W.textContent='Loading…';
+  try{
+    const [ver,ev]=await Promise.all([j('data/verified.json'), j('data/evidence.json')]);
+    const ids=(gp('ids','').trim()?gp('ids').split(','):Object.keys(ver)).filter(Boolean).slice(0,12);
+    document.getElementById('ids').value=ids.join(',');
+    W.innerHTML = ids.map(pid=>{
+      const v=ver[pid]||{}, e=ev[pid]||{};
+      const p=abs(e.pricing), c=abs(e.compliance);
+      const pOK=!!v.pricing, cOK=!!v.compliance;
+      const panel = (label,url,ok) => `
+        <div class="panel">
+          <div class="hdr">${label} • ${ok?'verified':'pending'}</div>
+          ${url?`<object data="${url}#toolbar=1&navpanes=0" type="application/pdf"></object>`:
+                 `<div class="muted" style="padding:10px">No receipt yet.</div>`}
+          <div class="url">${url?url:'(no file)'}</div>
+        </div>`;
+      return `
+        <div class="card" data-pid="${pid}">
+          <div class="pid">${pid}</div>
+          <div>${pOK?'<span class="pill ok">pricing verified</span>':'<span class="pill">pricing pending</span>'}
+               ${cOK?'<span class="pill ok">compliance verified</span>':'<span class="pill">compliance pending</span>'}</div>
+          ${panel('Pricing', p, pOK)}
+          ${panel('Compliance', c, cOK)}
+        </div>`;
+    }).join('');
+  }catch(e){
+    console.error(e);
+    W.innerHTML = '<div class="muted">Could not load web/data. Run scripts/build_web.sh.</div>';
+  }
+}
+function toggleMode(){document.body.classList.toggle("stacked");document.getElementById("modeBtn").textContent=document.body.classList.contains("stacked")?"One pane":"Two panes"}
+render();
+</script>
+</body>
+</html>
+
+<!-- Top-pick ribbon -->
+<script>
+(async function(){
+  try{
+    const params = new URLSearchParams(location.search);
+    const ids = (params.get('ids')||'').split(',').filter(Boolean);
+    if(!ids.length) return;
+    const r = await fetch('../rankings/top10.json',{cache:'no-store'});
+    const top = (await r.json())[0];
+    if(top && ids.includes(top.provider_id)){
+      const banner = document.createElement('div');
+      banner.textContent = 'Top pick among selected';
+      banner.style.cssText='position:sticky;top:0;background:#eef;padding:8px 12px;margin-bottom:8px;border-radius:8px;border:1px solid #cdd;';
+      document.body.prepend(banner);
+    }
+  }catch(e){}
+})();
+</script>
+
+<!-- FB_TOP_PICK_RIBBON -->
+<script>
+(async function(){
+  try{
+    const params = new URLSearchParams(location.search);
+    const ids = (params.get('ids')||'').split(',').filter(Boolean);
+    if(!ids.length) return;
+    const [names, ranksResp] = await Promise.all([
+      fetch('./data/providers.json').then(r=>r.ok?r.json():({})).catch(()=>({})),
+      fetch('../rankings/top10.json',{cache:'no-store'})
+    ]);
+    if(!ranksResp.ok) return;
+    const top = (await ranksResp.json())[0];
+    if(top && ids.includes(top.provider_id)){
+      const display = names[top.provider_id] || top.name || top.provider_id;
+      const banner = document.createElement('div');
+      banner.textContent = `Top pick: ${display}`;
+      banner.style.cssText='position:sticky;top:0;background:#eef;padding:8px 12px;margin-bottom:8px;border-radius:8px;border:1px solid #cdd;font-weight:600;';
+      document.body.prepend(banner);
+    }
+  }catch(e){}
+})();
+</script>

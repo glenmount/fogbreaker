@@ -22,6 +22,8 @@
   <div id="cards" class="grid"></div>
 
   <script>
+// FB_NAMES_LOADER
+(async function(){ try {const names = await fetch(\"./data/providers.json\").then(r=>r.ok?r.json():({}));const r = await fetch(\"rankings/top10.json\",{cache:\"no-store\"});if(!r.ok) throw new Error(\"rankings missing\");const data = await r.json(); if(!data.length){ const el=document.getElementById(\"top-pick-body\"); if(el) el.textContent=\"No ranked providers yet (needs Pricing + Compliance).\"; return; }const top = data[0]; const display = names[top.provider_id] || top.name || top.provider_id;const el = document.getElementById(\"top-pick-body\"); if(el) el.innerHTML = `<div><strong>${display}</strong> — score ${top.score}<div style=\"font-size:0.9em;opacity:.85;margin-top:4px\">${top.reasons||}</div><div style=\"margin-top:.5em\"><a href=\"./compare.html?ids=${encodeURIComponent(top.provider_id)}\">Open Compare</a></div></div>`;} catch(e) { const el=document.getElementById(\"top-pick-body\"); if(el) el.textContent=\"No ranking available.\"; } })();
   (async function () {
     try {
       const [vRes, eRes] = await Promise.all([
@@ -63,3 +65,74 @@
   </script>
 </body>
 </html>
+
+<!-- Top pick (auto from rankings/top10.json) -->
+<section id="top-pick" class="card" style="margin:16px 0;padding:12px;border:1px solid #ddd;border-radius:8px;">
+  <h2 style="margin:0 0 8px;">Top pick (pilot cohort)</h2>
+  <div id="top-pick-body">Loading…</div>
+</section>
+<script>
+(async function(){
+  try{
+    const r = await fetch('rankings/top10.json',{cache:'no-store'});
+    if(!r.ok) throw new Error('no rankings');
+    const data = await r.json();
+    if(!data.length) throw new Error('empty');
+    const top = data[0];
+    const name = top.name || top.provider_id;
+    const el = document.getElementById('top-pick-body');
+    el.innerHTML = `
+      <div>
+        <strong>${name}</strong> — score ${top.score}
+        <div style="font-size:0.9em;opacity:.85;margin-top:4px">${top.reasons || ''}</div>
+        <div style="margin-top:.5em">
+          <a href="./compare.html?ids=${encodeURIComponent(top.provider_id)}">Open Compare</a>
+        </div>
+      </div>`;
+  }catch(e){
+    const el = document.getElementById('top-pick-body');
+    if(el) el.textContent = 'No ranking available.';
+  }
+})();
+</script>
+
+<!-- FB_TOP3_BLOCK -->
+<section class="card" style="margin:16px 0;padding:12px;border:1px solid #ddd;border-radius:8px;">
+  <h2 style="margin:0 0 8px;">Top 3 (pilot cohort)</h2>
+  <div id="top-three-body">Loading…</div>
+</section>
+<script>
+(async function(){
+  try{
+    const r = await fetch('rankings/top10.json', {cache:'no-store'});
+    if(!r.ok) throw new Error('no rankings');
+    const data = (await r.json()).slice(0,3);
+    if(!data.length){ document.getElementById('top-three-body').textContent='No ranked providers yet.'; return; }
+    const rows = data.map(d => `
+      <tr>
+        <td style="padding:6px 8px;">${d.rank}</td>
+        <td style="padding:6px 8px;">${d.name || d.provider_id}</td>
+        <td style="padding:6px 8px;">${d.dap!=null?('$'+d.dap.toFixed(2)):'—'}</td>
+        <td style="padding:6px 8px;">${d.stars}★</td>
+        <td style="padding:6px 8px;">${d.compliance_present?'✓':'✗'}</td>
+        <td style="padding:6px 8px;"><a href="./compare.html?ids=${encodeURIComponent(d.provider_id)}">Compare</a></td>
+      </tr>`).join('');
+    document.getElementById('top-three-body').innerHTML = `
+      <table style="border-collapse:collapse;width:100%;border:1px solid #eee;">
+        <thead>
+          <tr style="background:#fafafa;">
+            <th style="text-align:left;padding:6px 8px;">#</th>
+            <th style="text-align:left;padding:6px 8px;">Provider</th>
+            <th style="text-align:left;padding:6px 8px;">DAP</th>
+            <th style="text-align:left;padding:6px 8px;">Stars</th>
+            <th style="text-align:left;padding:6px 8px;">Compliance</th>
+            <th style="text-align:left;padding:6px 8px;"></th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+  }catch(e){
+    document.getElementById('top-three-body').textContent='No ranking available.';
+  }
+})();
+</script>

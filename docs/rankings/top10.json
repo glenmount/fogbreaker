@@ -1,0 +1,101 @@
+[
+  {
+    "provider_id": "racs_160",
+    "name": null,
+    "dap": 85.26,
+    "stars": 3.0,
+    "compliance_present": true,
+    "distance_km": null,
+    "score": 96.0,
+    "rank": 1,
+    "reasons": "DAP $85.26 \u2022 3.0\u2605 overall \u2022 compliance \u2713"
+  },
+  {
+    "provider_id": "racs_507",
+    "name": null,
+    "dap": 95.92,
+    "stars": 3.0,
+    "compliance_present": true,
+    "distance_km": null,
+    "score": 92.0,
+    "rank": 2,
+    "reasons": "DAP $95.92 \u2022 3.0\u2605 overall \u2022 compliance \u2713"
+  },
+  {
+    "provider_id": "racs_2516",
+    "name": null,
+    "dap": 102.31,
+    "stars": 3.0,
+    "compliance_present": true,
+    "distance_km": null,
+    "score": 88.0,
+    "rank": 3,
+    "reasons": "DAP $102.31 \u2022 3.0\u2605 overall \u2022 compliance \u2713"
+  },
+  {
+    "provider_id": "racs_2524",
+    "name": null,
+    "dap": 102.31,
+    "stars": 3.0,
+    "compliance_present": true,
+    "distance_km": null,
+    "score": 84.0,
+    "rank": 4,
+    "reasons": "DAP $102.31 \u2022 3.0\u2605 overall \u2022 compliance \u2713"
+  },
+  {
+    "provider_id": "racs_536",
+    "name": null,
+    "dap": 106.58,
+    "stars": 3.0,
+    "compliance_present": true,
+    "distance_km": null,
+    "score": 80.0,
+    "rank": 5,
+    "reasons": "DAP $106.58 \u2022 3.0\u2605 overall \u2022 compliance \u2713"
+  },
+  {
+    "provider_id": "racs_2710",
+    "name": null,
+    "dap": 138.55,
+    "stars": 3.0,
+    "compliance_present": true,
+    "distance_km": null,
+    "score": 76.0,
+    "rank": 6,
+    "reasons": "DAP $138.55 \u2022 3.0\u2605 overall \u2022 compliance \u2713"
+  },
+  {
+    "provider_id": "racs_262",
+    "name": null,
+    "dap": 176.92,
+    "stars": 3.0,
+    "compliance_present": true,
+    "distance_km": null,
+    "score": 72.0,
+    "rank": 7,
+    "reasons": "DAP $176.92 \u2022 3.0\u2605 overall \u2022 compliance \u2713"
+  },
+  {
+    "provider_id": "racs_476",
+    "name": null,
+    "dap": 298.41,
+    "stars": 3.0,
+    "compliance_present": true,
+    "distance_km": null,
+    "score": 68.0,
+    "rank": 8,
+    "reasons": "DAP $298.41 \u2022 3.0\u2605 overall \u2022 compliance \u2713"
+  },
+  {
+    "provider_id": "racs_2713",
+    "name": null,
+    "dap": 319.73,
+    "stars": 3.0,
+    "compliance_present": true,
+    "distance_km": null,
+    "score": 64.0,
+    "rank": 9,
+    "reasons": "DAP $319.73 \u2022 3.0\u2605 overall \u2022 compliance \u2713"
+  }
+]
