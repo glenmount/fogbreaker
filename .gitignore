@@ -1,7 +1,34 @@
-__pycache__/
-.pytest_cache/
+# --- Fogbreaker gitignore ---
+
+# Python virtual envs / caches
 .venv/
-.DS_Store
+venn/
+__pycache__/
 *.pyc
-*.pyo
+
+# OS/editor noise
+.DS_Store
+Thumbs.db
 *.swp
+
+# Corpus PDFs (raw documents, too heavy for GitHub)
+corpus/
+
+# Receipts/logs (deterministic, can regenerate)
+receipts/
+
+# Local build outputs
+rankings/*.json
+rankings/*.jsonl
+
+# If you generate web build outputs separately
+web/data/verified.json
+web/data/evidence.json
+
+# Allow web/data/providers.json (keep the name map)
+!web/data/providers.json
+
+# Logs
+*.log
+
+# Allow demo PDFs in docs/corpus for GitHub Pages

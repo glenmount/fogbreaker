@@ -1,1 +1,56 @@
-[{"address":"1 Demo St","lat":-33.8688,"lng":151.2093,"mpir":8.36,"name":"Demo Care Home A","postcode":"2000","price_per_day":85.0,"provider_id":"prov_demo_1","rad":500000.0,"star_clinical":4.0,"star_compliance":4.5,"star_overall":4.2,"suburb":"Sydney","tags":["memory_support","secure_unit"]},{"address":"7 Foreshore Ave","lat":-33.8381,"lng":151.223,"mpir":8.36,"name":"Harbour View Lodge","postcode":"2089","price_per_day":95.0,"provider_id":"prov_demo_2","rad":450000.0,"star_clinical":3.8,"star_compliance":4.1,"star_overall":3.9,"suburb":"Neutral Bay","tags":["palliative"]}]
+[
+  {
+    "id": "racs_123456"
+  },
+  {
+    "id": "racs_160",
+    "rad": 400000,
+    "mpir": 7.78
+  },
+  {
+    "id": "racs_1a2b3c4d"
+  },
+  {
+    "id": "racs_2516",
+    "rad": 480000,
+    "mpir": 7.78
+  },
+  {
+    "id": "racs_2524",
+    "rad": 480000,
+    "mpir": 7.78
+  },
+  {
+    "id": "racs_262",
+    "rad": 830000,
+    "mpir": 7.78
+  },
+  {
+    "id": "racs_2710",
+    "rad": 650000,
+    "mpir": 7.78
+  },
+  {
+    "id": "racs_2713",
+    "rad": 1500000,
+    "mpir": 7.78
+  },
+  {
+    "id": "racs_476",
+    "rad": 1400000,
+    "mpir": 7.78
+  },
+  {
+    "id": "racs_507",
+    "rad": 450000,
+    "mpir": 7.78
+  },
+  {
+    "id": "racs_536",
+    "rad": 500000,
+    "mpir": 7.78
+  },
+  {
+    "id": "racs_990"
+  }
+]

@@ -1,1 +1,138 @@
-<!doctype html><html><body><h1>Fogbreaker — Top-5</h1><script>fetch('../rankings/top5.json').then(r=>r.json()).then(d=>document.body.insertAdjacentHTML('beforeend','<pre>'+JSON.stringify(d,null,2)+'</pre>'));</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Fogbreaker — Demo</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <style>
+    body{font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;margin:24px}
+    h1{font-size:20px;margin:0 0 12px}
+    .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px}
+    .card{border:1px solid #e1e1e1;border-radius:10px;padding:12px}
+    .pid{font:600 14px/1.2 system-ui;color:#333;margin:0 0 6px}
+    .badges{display:flex;gap:.4rem;margin:.25rem 0 .5rem}
+    .badge{padding:.2rem .4rem;border:1px solid #ccc;border-radius:.4rem;font-size:.8rem;text-decoration:none}
+    .badge.verified{border-color:#2e7d32;color:#2e7d32;font-weight:600}
+    .muted{color:#777;font-size:.85rem}
+  </style>
+</head>
+<body>
+  <h1>Fogbreaker — Providers (demo)</h1>
+  <p class="muted">Badges light up when we have receipts. Click them to open the source PDF.</p>
+  <div id="cards" class="grid"></div>
+
+  <script>
+// FB_NAMES_LOADER
+(async function(){ try {const names = await fetch(\"./data/providers.json\").then(r=>r.ok?r.json():({}));const r = await fetch(\"../rankings/top10.json\",{cache:\"no-store\"});if(!r.ok) throw new Error(\"rankings missing\");const data = await r.json(); if(!data.length){ const el=document.getElementById(\"top-pick-body\"); if(el) el.textContent=\"No ranked providers yet (needs Pricing + Compliance).\"; return; }const top = data[0]; const display = names[top.provider_id] || top.name || top.provider_id;const el = document.getElementById(\"top-pick-body\"); if(el) el.innerHTML = `<div><strong>${display}</strong> — score ${top.score}<div style=\"font-size:0.9em;opacity:.85;margin-top:4px\">${top.reasons||}</div><div style=\"margin-top:.5em\"><a href=\"./compare.html?ids=${encodeURIComponent(top.provider_id)}\">Open Compare</a></div></div>`;} catch(e) { const el=document.getElementById(\"top-pick-body\"); if(el) el.textContent=\"No ranking available.\"; } })();
+  (async function () {
+    try {
+      const [vRes, eRes] = await Promise.all([
+        fetch('data/verified.json', { cache: 'no-store' }),
+        fetch('data/evidence.json', { cache: 'no-store' })
+      ]);
+      const verified = await vRes.json();
+      const evidence = await eRes.json();
+
+      const ids = Object.keys(verified).sort();
+      const wrap = document.getElementById('cards');
+      wrap.innerHTML = '';
+      ids.forEach(pid => {
+        const m = verified[pid] || {};
+        const ev = evidence[pid] || {};
+        const pHref = ev.pricing ? ev.pricing : null;
+        const cHref = ev.compliance ? ev.compliance : null;
+
+        const el = document.createElement('div');
+        el.className = 'card';
+        el.setAttribute('data-pid', pid);
+        el.innerHTML = `
+          <div class="pid">${pid}</div>
+          <div class="badges">
+            <a class="badge ${m.pricing ? 'verified':''}" data-badge="pricing"
+               ${pHref ? `href="${pHref}" target="_blank" rel="noopener"` : ''}>Pricing</a>
+            <a class="badge ${m.compliance ? 'verified':''}" data-badge="compliance"
+               ${cHref ? `href="${cHref}" target="_blank" rel="noopener"` : ''}>Compliance</a>
+          </div>
+          <div class="muted">RAD/MPIR and compliance PDFs are in <code>corpus/${pid}/</code>.</div>
+        `;
+        wrap.appendChild(el);
+      });
+    } catch (e) {
+      document.getElementById('cards').innerHTML = '<div class="muted">Could not load data files.</div>';
+      console.error('load failed', e);
+    }
+  })();
+  </script>
+</body>
+</html>
+
+<!-- Top pick (auto from rankings/top10.json) -->
+<section id="top-pick" class="card" style="margin:16px 0;padding:12px;border:1px solid #ddd;border-radius:8px;">
+  <h2 style="margin:0 0 8px;">Top pick (pilot cohort)</h2>
+  <div id="top-pick-body">Loading…</div>
+</section>
+<script>
+(async function(){
+  try{
+    const r = await fetch('../rankings/top10.json',{cache:'no-store'});
+    if(!r.ok) throw new Error('no rankings');
+    const data = await r.json();
+    if(!data.length) throw new Error('empty');
+    const top = data[0];
+    const name = top.name || top.provider_id;
+    const el = document.getElementById('top-pick-body');
+    el.innerHTML = `
+      <div>
+        <strong>${name}</strong> — score ${top.score}
+        <div style="font-size:0.9em;opacity:.85;margin-top:4px">${top.reasons || ''}</div>
+        <div style="margin-top:.5em">
+          <a href="./compare.html?ids=${encodeURIComponent(top.provider_id)}">Open Compare</a>
+        </div>
+      </div>`;
+  }catch(e){
+    const el = document.getElementById('top-pick-body');
+    if(el) el.textContent = 'No ranking available.';
+  }
+})();
+</script>
+
+<!-- FB_TOP3_BLOCK -->
+<section class="card" style="margin:16px 0;padding:12px;border:1px solid #ddd;border-radius:8px;">
+  <h2 style="margin:0 0 8px;">Top 3 (pilot cohort)</h2>
+  <div id="top-three-body">Loading…</div>
+</section>
+<script>
+(async function(){
+  try{
+    const r = await fetch('../rankings/top10.json', {cache:'no-store'});
+    if(!r.ok) throw new Error('no rankings');
+    const data = (await r.json()).slice(0,3);
+    if(!data.length){ document.getElementById('top-three-body').textContent='No ranked providers yet.'; return; }
+    const rows = data.map(d => `
+      <tr>
+        <td style="padding:6px 8px;">${d.rank}</td>
+        <td style="padding:6px 8px;">${d.name || d.provider_id}</td>
+        <td style="padding:6px 8px;">${d.dap!=null?('$'+d.dap.toFixed(2)):'—'}</td>
+        <td style="padding:6px 8px;">${d.stars}★</td>
+        <td style="padding:6px 8px;">${d.compliance_present?'✓':'✗'}</td>
+        <td style="padding:6px 8px;"><a href="./compare.html?ids=${encodeURIComponent(d.provider_id)}">Compare</a></td>
+      </tr>`).join('');
+    document.getElementById('top-three-body').innerHTML = `
+      <table style="border-collapse:collapse;width:100%;border:1px solid #eee;">
+        <thead>
+          <tr style="background:#fafafa;">
+            <th style="text-align:left;padding:6px 8px;">#</th>
+            <th style="text-align:left;padding:6px 8px;">Provider</th>
+            <th style="text-align:left;padding:6px 8px;">DAP</th>
+            <th style="text-align:left;padding:6px 8px;">Stars</th>
+            <th style="text-align:left;padding:6px 8px;">Compliance</th>
+            <th style="text-align:left;padding:6px 8px;"></th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+  }catch(e){
+    document.getElementById('top-three-body').textContent='No ranking available.';
+  }
+})();
+</script>
