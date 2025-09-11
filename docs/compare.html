@@ -42,6 +42,9 @@
   <div id="wrap" class="grid"></div>
 
 <script>
+// FB_CORPUS_BASE
+const FB_BASE = (location.pathname.endsWith("/")? location.pathname : location.pathname.replace(/[^/]+$/, ""));
+const corpusPath = (p)=> (p.startsWith("corpus/")? (FB_BASE + p) : p.replace(/^\/?corpus\//, FB_BASE+"corpus/"));
 function gp(n,d=''){const u=new URL(location.href);return u.searchParams.get(n)||d}
 function sp(n,v){const u=new URL(location.href);u.searchParams.set(n,v);history.replaceState(null,'',u.toString())}
 function applyIds(){const v=document.getElementById('ids').value.trim();sp('ids',v);render()}
