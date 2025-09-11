@@ -130,3 +130,36 @@ render();
   }catch(e){}
 })();
 </script>
+
+<!-- FB_PDF_FIX: replace fragile PDF iframes with <object> + fallback link -->
+<script>
+(function(){
+  function swapIframes(){
+    document.querySelectorAll('iframe[src*="corpus/"]').forEach(function(el){
+      var src = el.getAttribute('src'); if(!src) return;
+      // Normalize leading slash if any
+      src = src.replace(/^\/+/, '');
+      // Build <object> viewer
+      var obj = document.createElement('object');
+      obj.setAttribute('data', src + '#view=FitH');
+      obj.setAttribute('type', 'application/pdf');
+      obj.style.width = '100%';
+      obj.style.height = (el.getAttribute('height') || '900') + 'px';
+      // Fallback link under the viewer
+      var link = document.createElement('div');
+      link.style.margin = '6px 0 12px';
+      link.innerHTML = '<a href="'+src+'" target="_blank" rel="noopener">Open PDF ↗</a>';
+      // Swap
+      el.parentNode.replaceChild(obj, el);
+      obj.insertAdjacentElement('afterend', link);
+    });
+  }
+  // Run after DOM is ready and again shortly (covers late-inserted iframes)
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', swapIframes);
+  } else {
+    swapIframes();
+  }
+  setTimeout(swapIframes, 800);
+})();
+</script>
