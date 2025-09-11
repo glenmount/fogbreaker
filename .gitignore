@@ -30,3 +30,5 @@ web/data/evidence.json
 
 # Logs
 *.log
+
+# Allow demo PDFs in docs/corpus for GitHub Pages
