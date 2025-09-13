@@ -42,19 +42,33 @@ jobs:
       - name: Stage static site
         shell: bash
         run: |
-          set -euo pipefail
+          set -e  # intentionally *not* -u or pipefail to avoid null-glob surprises
           rm -rf dist && mkdir -p dist/data dist/rankings
-          # copy web/ if present
-          if [ -d web ]; then
-            # copy including dotfiles; avoid failing on empty dirs
-            cp -a web/. dist/ || true
+
+          echo "::group::ls repo root"; pwd; ls -la; echo "::endgroup::"
+
+          # copy web/* only if any entries exist (null-safe)
+          if [ -d web ] && compgen -G "web/*" >/dev/null; then
+            cp -a web/. dist/
+          else
+            echo "NOTE: no web/ contents to copy"
           fi
-          # copy root html if present
-          [ -f index.html ] && cp index.html dist/
-          [ -f compare.html ] && cp compare.html dist/
-          # copy JSONs if present
-          [ -f data/verified.json ] && cp -a data/verified.json dist/data/
-          [ -f rankings/top10.json ] && cp -a rankings/top10.json dist/rankings/
+
+          # copy root html if present (null-safe)
+          [ -f index.html ] && cp index.html dist/ || true
+          [ -f compare.html ] && cp compare.html dist/ || true
+
+          # copy JSONs if present (null-safe)
+          [ -f data/verified.json ] && cp -a data/verified.json dist/data/ || true
+          [ -f rankings/top10.json ] && cp -a rankings/top10.json dist/rankings/ || true
+
+          # ensure there's at least an index.html so Netlify never 404s
+          if [ ! -f dist/index.html ]; then
+            cat > dist/index.html <<'HTML'
+<!doctype html><meta charset=utf-8><title>Fogbreaker</title>
+<h1>Fogbreaker</h1><p>Deployed via CI.</p>
+HTML
+          fi
 
       - name: Rewrite evidence.json → absolute CDN URLs
         run: |
