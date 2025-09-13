@@ -19,7 +19,7 @@ on:
       - "data/**"
       - "rankings/**"
       - ".github/workflows/deploy.yml"
-  workflow_dispatch: {}   # <-- allow manual runs from CLI
+  workflow_dispatch: {}
 
 jobs:
   build-deploy:
@@ -40,11 +40,19 @@ jobs:
         run: npm -g i netlify-cli@17
 
       - name: Stage static site
+        shell: bash
         run: |
+          set -euo pipefail
           rm -rf dist && mkdir -p dist/data dist/rankings
-          cp -a web/* dist/ || true
+          # copy web/ if present
+          if [ -d web ]; then
+            # copy including dotfiles; avoid failing on empty dirs
+            cp -a web/. dist/ || true
+          fi
+          # copy root html if present
           [ -f index.html ] && cp index.html dist/
           [ -f compare.html ] && cp compare.html dist/
+          # copy JSONs if present
           [ -f data/verified.json ] && cp -a data/verified.json dist/data/
           [ -f rankings/top10.json ] && cp -a rankings/top10.json dist/rankings/
 
@@ -92,7 +100,7 @@ jobs:
         run: |
           set -e
           mkdir -p /tmp/inv
-          git show HEAD^:data/evidence.json > /tmp/inv/old.json 2>/dev/null | true
+          git show HEAD^:data/evidence.json > /tmp/inv/old.json 2>/dev/null || true
           cp dist/data/evidence.json /tmp/inv/new.json
           python - <<'PY'
           import json
