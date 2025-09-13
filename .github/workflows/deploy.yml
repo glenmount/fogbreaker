@@ -1,4 +1,4 @@
-name: Deploy (Netlify + CloudFront invalidate on evidence change)
+name: ci
 
 on:
   push:
@@ -10,7 +10,15 @@ on:
       - "data/**"
       - "rankings/**"
       - ".github/workflows/deploy.yml"
-  workflow_dispatch: {}
+  pull_request:
+    branches: [ main ]
+    paths:
+      - "index.html"
+      - "compare.html"
+      - "web/**"
+      - "data/**"
+      - "rankings/**"
+      - ".github/workflows/deploy.yml"
 
 jobs:
   build-deploy:
@@ -22,12 +30,10 @@ jobs:
       CLOUDFRONT_DIST_ID: ${{ vars.CLOUDFRONT_DIST_ID }}
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
+        with: { fetch-depth: 2 }
 
       - uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
+        with: { python-version: '3.11' }
 
       - name: Install Netlify CLI
         run: npm -g i netlify-cli@17
