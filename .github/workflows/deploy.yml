@@ -19,6 +19,7 @@ on:
       - "data/**"
       - "rankings/**"
       - ".github/workflows/deploy.yml"
+  workflow_dispatch: {}   # <-- allow manual runs from CLI
 
 jobs:
   build-deploy:
@@ -91,7 +92,7 @@ jobs:
         run: |
           set -e
           mkdir -p /tmp/inv
-          git show HEAD^:data/evidence.json > /tmp/inv/old.json 2>/dev/null || true
+          git show HEAD^:data/evidence.json > /tmp/inv/old.json 2>/dev/null | true
           cp dist/data/evidence.json /tmp/inv/new.json
           python - <<'PY'
           import json
